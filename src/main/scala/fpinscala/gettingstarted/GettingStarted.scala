@@ -34,4 +34,12 @@ object MyModule {
     if (n < 2) n else fib(0, 1, 2)
   }
 
+  def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
+    @tailrec
+    def isSorted(i: Int): Boolean =
+      if (i >= as.length) true else ordered(as(i - 1), as(i)) && isSorted(i + 1)
+
+    isSorted(1)
+  }
+
 }

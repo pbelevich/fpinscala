@@ -29,4 +29,10 @@ class GettingStartedTest extends org.scalatest.FunSuite {
     assert(8 == MyModule.fib(6))
   }
 
+  test("isSorted") {
+    assert(MyModule.isSorted[Int](Array(), (a, b) => a <= b))
+    assert(MyModule.isSorted[Int](Array(1, 2, 3), (a, b) => a <= b))
+    assert(!MyModule.isSorted[Int](Array(1, 3, 2), (a, b) => a <= b))
+  }
+
 }
