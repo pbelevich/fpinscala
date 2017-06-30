@@ -49,4 +49,9 @@ class GettingStartedTest extends org.scalatest.FunSuite {
     assert(64 == f(3, 4))
   }
 
+  test("compose") {
+    val f = MyModule.compose[Int, String, Double](s => s.toDouble, i => i.toString)
+    assert(42.0 == f(42))
+  }
+
 }
