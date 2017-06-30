@@ -11,4 +11,12 @@ class GettingStartedTest extends org.scalatest.FunSuite {
     assert(42 == MyModule.abs(-42))
   }
 
+  test("factorial") {
+    assert(1 == MyModule.factorial(1))
+    assert(2 == MyModule.factorial(2))
+    assert(6 == MyModule.factorial(3))
+    assert(24 == MyModule.factorial(4))
+    assert(120 == MyModule.factorial(5))
+  }
+
 }

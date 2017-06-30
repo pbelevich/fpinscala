@@ -1,5 +1,7 @@
 package fpinscala.gettingstarted
 
+import scala.annotation.tailrec
+
 /**
   * @author Pavel Belevich
   */
@@ -14,6 +16,13 @@ object MyModule {
 
   def main(args: Array[String]): Unit = {
     println(formatAbs(-42))
+  }
+
+  def factorial(n: Int): Int = {
+    @tailrec
+    def go(n: Int, acc: Int): Int = if (n <= 0) acc else go(n - 1, n * acc)
+
+    go(n, 1)
   }
 
 }
