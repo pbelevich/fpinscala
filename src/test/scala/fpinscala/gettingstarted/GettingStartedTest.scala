@@ -36,12 +36,17 @@ class GettingStartedTest extends org.scalatest.FunSuite {
   }
 
   test("curry") {
-    val f = MyModule.curry[Int, Boolean, String]((i, b) => i + " " + b)
-    val g = f(42)
-    val s1 = g(true)
-    assert("42 true" == s1)
-    val s2 = g(false)
-    assert("42 false" == s2)
+    val f = MyModule.curry[Int, Int, Int]((n, a) => Math.pow(a, n).toInt)
+    val square = f(2)
+    assert(16 == square(4))
+    val cubic = f(3)
+    assert(64 == cubic(4))
+  }
+
+  test("uncurry") {
+    val f = MyModule.uncurry[Int, Int, Int](n => a => Math.pow(a, n).toInt)
+    assert(16 == f(2, 4))
+    assert(64 == f(3, 4))
   }
 
 }
