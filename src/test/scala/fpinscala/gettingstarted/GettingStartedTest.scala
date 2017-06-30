@@ -35,4 +35,13 @@ class GettingStartedTest extends org.scalatest.FunSuite {
     assert(!MyModule.isSorted[Int](Array(1, 3, 2), (a, b) => a <= b))
   }
 
+  test("curry") {
+    val f = MyModule.curry[Int, Boolean, String]((i, b) => i + " " + b)
+    val g = f(42)
+    val s1 = g(true)
+    assert("42 true" == s1)
+    val s2 = g(false)
+    assert("42 false" == s2)
+  }
+
 }
