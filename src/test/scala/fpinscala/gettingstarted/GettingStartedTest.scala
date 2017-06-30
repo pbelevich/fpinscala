@@ -19,4 +19,14 @@ class GettingStartedTest extends org.scalatest.FunSuite {
     assert(120 == MyModule.factorial(5))
   }
 
+  test("fib") {
+    assert(0 == MyModule.fib(0))
+    assert(1 == MyModule.fib(1))
+    assert(1 == MyModule.fib(2))
+    assert(2 == MyModule.fib(3))
+    assert(3 == MyModule.fib(4))
+    assert(5 == MyModule.fib(5))
+    assert(8 == MyModule.fib(6))
+  }
+
 }
