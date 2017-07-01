@@ -109,4 +109,8 @@ class ListTest extends FunSuite {
     assert(List(2, 3, 4) == List.add1(List(1, 2, 3)))
   }
 
+  test("doubleToString") {
+    assert(List("1.0", "2.0", "3.0") == List.doubleToString(List(1.0, 2.0, 3.0)))
+  }
+
 }
