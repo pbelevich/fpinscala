@@ -43,4 +43,16 @@ class ListTest extends FunSuite {
     assert(List(1, 2) == List.init(List(1, 2, 3)))
   }
 
+  test("sum2") {
+    assert(0 == List.sum2(List()))
+    assert(1 == List.sum2(List(1)))
+    assert(6 == List.sum2(List(1, 2, 3)))
+  }
+
+  test("product2") {
+    assert(1 == List.product2(List()))
+    assert(42 == List.product2(List(42)))
+    assert(6 == List.product2(List(1, 2, 3)))
+  }
+
 }
