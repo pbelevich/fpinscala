@@ -133,4 +133,8 @@ class ListTest extends FunSuite {
     assert(List(2, 4) == List.filterViaFlatMap(List(1, 2, 3, 4))(_ % 2 == 0))
   }
 
+  test("addPairwise") {
+    assert(List(5, 7, 9) == List.addPairwise(List(1, 2, 3), List(4, 5, 6)))
+  }
+
 }
