@@ -78,10 +78,12 @@ object List {
     case Cons(h, t) => foldLeft(t, f(z, h))(f)
   }
 
-  def sum3(l: List[Int]) = foldLeft(l, 0)(_ + _)
+  def sum3(l: List[Int]): Int = foldLeft(l, 0)(_ + _)
 
-  def product3(l: List[Double]) = foldLeft(l, 1.0)(_ * _)
+  def product3(l: List[Double]): Double = foldLeft(l, 1.0)(_ * _)
 
-  def length2(l: List[_]) = foldLeft(l, 0)((l, _) => l + 1)
+  def length2(l: List[_]): Int = foldLeft(l, 0)((l, _) => l + 1)
+
+  def reverse[A](l: List[A]): List[A] = foldLeft(l, List[A]())((r, x) => Cons(x, r))
 
 }

@@ -79,4 +79,10 @@ class ListTest extends FunSuite {
     assert(3 == List.length2(List(1, 2, 3)))
   }
 
+  test("reverse") {
+    assert(List() == List.reverse(List()))
+    assert(List(1) == List.reverse(List(1)))
+    assert(List(3, 2, 1) == List.reverse(List(1, 2, 3)))
+  }
+
 }
