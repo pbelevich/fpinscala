@@ -13,4 +13,10 @@ class TreeTest extends FunSuite {
     assert(5 == Tree.size(Branch(Branch(Leaf(), Leaf()), Leaf())))
   }
 
+  test("maximum") {
+    assert(1 == Tree.maximum(Leaf(1)))
+    assert(5 == Tree.maximum(Branch(Leaf(1), Leaf(5))))
+    assert(7 == Tree.maximum(Branch(Branch(Leaf(7), Leaf(2)), Leaf(3))))
+  }
+
 }
