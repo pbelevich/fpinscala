@@ -39,4 +39,8 @@ class ListTest extends FunSuite {
     assert(List(1, 2, 3, 4, 5, 6) == List.append(List(1, 2, 3), List(4, 5, 6)))
   }
 
+  test("init") {
+    assert(List(1, 2) == List.init(List(1, 2, 3)))
+  }
+
 }
