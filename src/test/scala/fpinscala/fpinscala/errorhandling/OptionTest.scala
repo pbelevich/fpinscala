@@ -49,4 +49,16 @@ class OptionTest extends FunSuite {
     assert(Some(2) == (Some(1): Option[Int]).map(_ + 1))
   }
 
+  test("mean") {
+    assert(None == Option.mean(Seq()))
+    assert(Some(1.0) == Option.mean(Seq(1.0)))
+    assert(Some(2.0) == Option.mean(Seq(1.0, 2.0, 3.0)))
+  }
+
+  test("variance") {
+    assert(None == Option.variance(Seq()))
+    assert(Some(0.0) == Option.variance(Seq(1.0)))
+    assert(Some(5.0) == Option.variance(Seq(2.0, 4.0, 6.0, 8.0)))
+  }
+
 }
