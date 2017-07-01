@@ -35,4 +35,8 @@ class ListTest extends FunSuite {
     assert(List() == List.dropWhile[Int](l, _ < 4))
   }
 
+  test("append") {
+    assert(List(1, 2, 3, 4, 5, 6) == List.append(List(1, 2, 3), List(4, 5, 6)))
+  }
+
 }
