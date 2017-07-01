@@ -85,4 +85,16 @@ class ListTest extends FunSuite {
     assert(List(3, 2, 1) == List.reverse(List(1, 2, 3)))
   }
 
+  test("foldRightViaFoldLeft") {
+    assert("cba" == List.foldRightViaFoldLeft(List("a", "b", "c"), "")((x, r) => r + x))
+  }
+
+  test("foldRightViaFoldLeft_1") {
+    assert("cba" == List.foldRightViaFoldLeft_1(List("a", "b", "c"), "")((x, r) => r + x))
+  }
+
+  test("foldLeftViaFoldRight") {
+    assert("abc" == List.foldLeftViaFoldRight(List("a", "b", "c"), "")((r, x) => r + x))
+  }
+
 }
