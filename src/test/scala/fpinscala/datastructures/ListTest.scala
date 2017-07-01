@@ -19,4 +19,12 @@ class ListTest extends FunSuite {
     assert(List(42, 2, 3) == List.setHead(l, 42))
   }
 
+  test("drop") {
+    val l = List(1, 2, 3)
+    assert(List(1, 2, 3) == List.drop(l, 0))
+    assert(List(2, 3) == List.drop(l, 1))
+    assert(List(3) == List.drop(l, 2))
+    assert(List() == List.drop(l, 3))
+  }
+
 }

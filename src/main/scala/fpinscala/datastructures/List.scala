@@ -1,5 +1,7 @@
 package fpinscala.datastructures
 
+import scala.annotation.tailrec
+
 /**
   * @author Pavel Belevich
   */
@@ -33,6 +35,13 @@ object List {
   def setHead[A](l: List[A], h: A): List[A] = l match {
     case Nil => sys.error("setHead on empty list")
     case Cons(_, t) => Cons(h, t)
+  }
+
+  @tailrec
+  def drop[A](l: List[A], n: Int): List[A] = (l, n) match {
+    case (_, 0) => l
+    case (Nil, _) => sys.error("drop")
+    case (Cons(_, t), m) => drop(t, m - 1)
   }
 
 }
