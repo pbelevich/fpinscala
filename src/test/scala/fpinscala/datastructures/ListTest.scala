@@ -97,4 +97,8 @@ class ListTest extends FunSuite {
     assert("abc" == List.foldLeftViaFoldRight(List("a", "b", "c"), "")((r, x) => r + x))
   }
 
+  test("append2") {
+    assert(List(1, 2, 3, 4, 5, 6) == List.append2(List(1, 2, 3), List(4, 5, 6)))
+  }
+
 }
