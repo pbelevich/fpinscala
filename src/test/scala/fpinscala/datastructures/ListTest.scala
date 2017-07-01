@@ -55,4 +55,10 @@ class ListTest extends FunSuite {
     assert(6 == List.product2(List(1, 2, 3)))
   }
 
+  test("length") {
+    assert(0 == List.length(List()))
+    assert(1 == List.length(List(1)))
+    assert(3 == List.length(List(1, 2, 3)))
+  }
+
 }
