@@ -25,4 +25,10 @@ class TreeTest extends FunSuite {
     assert(3 == Tree.depth(Branch(Branch(Leaf(7), Leaf(2)), Leaf(3))))
   }
 
+  test("map") {
+    assert(Leaf(2) == Tree.map(Leaf(1))(_ + 1))
+    assert(Branch(Leaf(2), Leaf(10)) == Tree.map(Branch(Leaf(1), Leaf(5)))(_ * 2))
+    assert(Branch(Branch(Leaf("7"), Leaf("2")), Leaf("3")) == Tree.map(Branch(Branch(Leaf(7), Leaf(2)), Leaf(3)))(_.toString))
+  }
+
 }
