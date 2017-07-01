@@ -101,4 +101,7 @@ object List {
   def concat[A](l: List[List[A]]): List[A] =
     foldRightViaFoldLeft_1(l, List[A]())(append2)
 
+  def add1(l: List[Int]): List[Int] =
+    foldRightViaFoldLeft_1(l, Nil: List[Int])((h, t) => Cons(h + 1, t))
+
 }

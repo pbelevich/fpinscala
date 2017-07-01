@@ -105,4 +105,8 @@ class ListTest extends FunSuite {
     assert(List(1, 2, 3, 4, 5, 6) == List.concat(List(List(1, 2), List(3), List(4, 5, 6))))
   }
 
+  test("add1") {
+    assert(List(2, 3, 4) == List.add1(List(1, 2, 3)))
+  }
+
 }
