@@ -137,4 +137,8 @@ class ListTest extends FunSuite {
     assert(List(5, 7, 9) == List.addPairwise(List(1, 2, 3), List(4, 5, 6)))
   }
 
+  test("zipWith") {
+    assert(List(5, 7, 9) == List.zipWith(List(1, 2, 3), List(4, 5, 6))(_ + _))
+  }
+
 }
