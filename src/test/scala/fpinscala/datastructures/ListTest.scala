@@ -117,4 +117,8 @@ class ListTest extends FunSuite {
     assert(List("1.0", "2.0", "3.0") == List.map(List(1.0, 2.0, 3.0))(_.toString))
   }
 
+  test("filter") {
+    assert(List(2, 4) == List.filter(List(1, 2, 3, 4))(_ % 2 == 0))
+  }
+
 }
