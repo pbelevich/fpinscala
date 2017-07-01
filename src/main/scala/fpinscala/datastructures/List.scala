@@ -72,4 +72,16 @@ object List {
 
   def length[A](as: List[A]): Int = foldRight(as, 0)((_, l) => l + 1)
 
+  @tailrec
+  def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+    case Nil => z
+    case Cons(h, t) => foldLeft(t, f(z, h))(f)
+  }
+
+  def sum3(l: List[Int]) = foldLeft(l, 0)(_ + _)
+
+  def product3(l: List[Double]) = foldLeft(l, 1.0)(_ * _)
+
+  def length2(l: List[_]) = foldLeft(l, 0)((l, _) => l + 1)
+
 }
