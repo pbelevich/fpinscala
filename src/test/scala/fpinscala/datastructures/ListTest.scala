@@ -14,4 +14,9 @@ class ListTest extends FunSuite {
     assert(List() == List.tail(List.tail(List.tail(l))))
   }
 
+  test("setHead") {
+    val l = List(1, 2, 3)
+    assert(List(42, 2, 3) == List.setHead(l, 42))
+  }
+
 }
