@@ -113,4 +113,8 @@ class ListTest extends FunSuite {
     assert(List("1.0", "2.0", "3.0") == List.doubleToString(List(1.0, 2.0, 3.0)))
   }
 
+  test("map") {
+    assert(List("1.0", "2.0", "3.0") == List.map(List(1.0, 2.0, 3.0))(_.toString))
+  }
+
 }
