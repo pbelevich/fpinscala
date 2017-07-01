@@ -27,4 +27,12 @@ class ListTest extends FunSuite {
     assert(List() == List.drop(l, 3))
   }
 
+  test("dropWhile") {
+    val l = List(1, 2, 3)
+    assert(List(1, 2, 3) == List.dropWhile[Int](l, _ < 1))
+    assert(List(2, 3) == List.dropWhile[Int](l, _ < 2))
+    assert(List(3) == List.dropWhile[Int](l, _ < 3))
+    assert(List() == List.dropWhile[Int](l, _ < 4))
+  }
+
 }
