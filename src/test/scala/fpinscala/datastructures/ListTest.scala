@@ -121,4 +121,8 @@ class ListTest extends FunSuite {
     assert(List(2, 4) == List.filter(List(1, 2, 3, 4))(_ % 2 == 0))
   }
 
+  test("flatMap") {
+    assert(List('a', 'b', 'c', 'd', 'e', 'f') == List.flatMap(List("abc", "d", "ef"))(s => List(s.toCharArray: _*)))
+  }
+
 }
