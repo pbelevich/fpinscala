@@ -31,4 +31,28 @@ class TreeTest extends FunSuite {
     assert(Branch(Branch(Leaf("7"), Leaf("2")), Leaf("3")) == Tree.map(Branch(Branch(Leaf(7), Leaf(2)), Leaf(3)))(_.toString))
   }
 
+  test("sizeViaFold") {
+    assert(1 == Tree.sizeViaFold(Leaf()))
+    assert(3 == Tree.sizeViaFold(Branch(Leaf(), Leaf())))
+    assert(5 == Tree.sizeViaFold(Branch(Branch(Leaf(), Leaf()), Leaf())))
+  }
+
+  test("maximumViaFold") {
+    assert(1 == Tree.maximumViaFold(Leaf(1)))
+    assert(5 == Tree.maximumViaFold(Branch(Leaf(1), Leaf(5))))
+    assert(7 == Tree.maximumViaFold(Branch(Branch(Leaf(7), Leaf(2)), Leaf(3))))
+  }
+
+  test("depthViaFold") {
+    assert(1 == Tree.depthViaFold(Leaf(1)))
+    assert(2 == Tree.depthViaFold(Branch(Leaf(1), Leaf(5))))
+    assert(3 == Tree.depthViaFold(Branch(Branch(Leaf(7), Leaf(2)), Leaf(3))))
+  }
+
+  test("mapViaFold") {
+    assert(Leaf(2) == Tree.mapViaFold(Leaf(1))(_ + 1))
+    assert(Branch(Leaf(2), Leaf(10)) == Tree.mapViaFold(Branch(Leaf(1), Leaf(5)))(_ * 2))
+    assert(Branch(Branch(Leaf("7"), Leaf("2")), Leaf("3")) == Tree.mapViaFold(Branch(Branch(Leaf(7), Leaf(2)), Leaf(3)))(_.toString))
+  }
+
 }
