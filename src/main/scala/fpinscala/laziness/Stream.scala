@@ -5,6 +5,9 @@ import scala.annotation.tailrec
 /**
   * @author Pavel Belevich
   */
+
+import Stream._
+
 sealed trait Stream[+A] {
 
   def headOption: Option[A] = this match {
@@ -25,6 +28,18 @@ sealed trait Stream[+A] {
     }
 
     loop(this, Nil).reverse
+  }
+
+  def take(n: Int): Stream[A] = this match {
+    case Cons(h, _) if n == 1 => cons(h(), empty)
+    case Cons(h, t) if n > 1 => cons(h(), t().take(n - 1))
+    case _ => empty
+  }
+
+  @tailrec
+  final def drop(n: Int): Stream[A] = this match {
+    case Cons(_, t) if n > 0 => t().drop(n - 1)
+    case _ => this
   }
 
 }
