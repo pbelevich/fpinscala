@@ -1,4 +1,4 @@
-package fpinscala.fpinscala.errorhandling
+package fpinscala.errorhandling
 
 import org.scalatest.FunSuite
 

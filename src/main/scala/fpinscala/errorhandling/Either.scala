@@ -1,4 +1,4 @@
-package fpinscala.fpinscala.errorhandling
+package fpinscala.errorhandling
 
 /**
   * @author Pavel Belevich
@@ -24,7 +24,7 @@ sealed trait Either[+E, +A] {
   }
 
   def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] =
-  //    flatMap(x => b.flatMap(y => Right(f(x, y))))
+  //      flatMap(x => b.map(y => f(x, y)))
     for {
       x <- this
       y <- b
@@ -56,5 +56,11 @@ object Either {
     catch {
       case e: Exception => Left(e)
     }
+
+  def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] =
+    traverse(es)(a => a)
+
+  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
+    as.foldRight[Either[E, List[B]]](Right(List()))((h, t) => f(h).map2(t)(_ :: _))
 
 }

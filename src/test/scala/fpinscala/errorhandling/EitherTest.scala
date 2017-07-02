@@ -1,4 +1,4 @@
-package fpinscala.fpinscala.errorhandling
+package fpinscala.errorhandling
 
 import org.scalatest.FunSuite
 
@@ -31,6 +31,18 @@ class EitherTest extends FunSuite {
   test("testMap") {
     assert(Left(1) == (Left(1): Either[Int, String]).map(_.toInt))
     assert(Right(1) == (Right("1"): Either[Int, String]).map(_.toInt))
+  }
+
+  test("sequence") {
+    assert(Right(List()) == Either.sequence(List()))
+    assert(Right(List(1, 2, 3)) == Either.sequence(List(Right(1), Right(2), Right(3))))
+    assert(Left("Error") == Either.sequence(List(Right(1), Left("Error"), Right(3))))
+  }
+
+  test("traverse") {
+    assert(Right(List()) == Either.traverse[Exception, String, Int](List())(a => Either.Try(a.toInt)))
+    assert(Right(List(1, 2, 3)) == Either.traverse[Exception, String, Int](List("1", "2", "3"))(a => Either.Try(a.toInt)))
+    assert(classOf[NumberFormatException] == Either.traverse[Exception, String, Int](List("1", "hello", "3"))(a => Either.Try(a.toInt)).asInstanceOf[Left[Exception]].value.getClass)
   }
 
 }
