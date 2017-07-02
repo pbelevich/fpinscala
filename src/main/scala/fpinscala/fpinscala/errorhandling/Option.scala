@@ -46,4 +46,23 @@ object Option {
 
   def variance(xs: Seq[Double]): Option[Double] = mean(xs) flatMap (m => mean(xs.map(x => math.pow(x - m, 2))))
 
+  def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
+
+  val absO: Option[Double] => Option[Double] = lift(math.abs)
+
+  def insuranceRateQuote(age: Int, numberOfSpeedingTickets: Int): Double = ???
+
+  def Try[A](a: => A): Option[A] = try Some(a) catch {
+    case _: Exception => None
+  }
+
+  def parseInsuranceRateQuote(age: String, numberOfSpeedingTickets: String): Option[Double] = {
+    val optAge: Option[Int] = Try(age.toInt)
+    val optTickets: Option[Int] = Try(numberOfSpeedingTickets.toInt)
+    map2(optAge, optTickets)(insuranceRateQuote)
+  }
+
+  def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+    a.flatMap(x => b.flatMap(y => Some(f(x, y))))
+
 }
