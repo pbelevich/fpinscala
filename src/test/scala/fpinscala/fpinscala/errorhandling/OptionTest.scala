@@ -61,4 +61,19 @@ class OptionTest extends FunSuite {
     assert(Some(5.0) == Option.variance(Seq(2.0, 4.0, 6.0, 8.0)))
   }
 
+  test("map2") {
+    assert((None: Option[Int]) == Option.map2[Int, Int, Int](None, None)(_ + _))
+    assert((None: Option[Int]) == Option.map2[Int, Int, Int](Some(1), None)(_ + _))
+    assert((None: Option[Int]) == Option.map2[Int, Int, Int](None, Some(2))(_ + _))
+    assert((Some(3): Option[Int]) == Option.map2[Int, Int, Int](Some(1), Some(2))(_ + _))
+  }
+
+  test("sequence") {
+    assert(Some(List()) == Option.sequence(List()))
+    assert(None == Option.sequence(List(None)))
+    assert(Some(List(1)) == Option.sequence(List(Some(1))))
+    assert(Some(List(1, 2, 3)) == Option.sequence(List(Some(1), Some(2), Some(3))))
+    assert(None == Option.sequence(List(Some(1), None, Some(3))))
+  }
+
 }
