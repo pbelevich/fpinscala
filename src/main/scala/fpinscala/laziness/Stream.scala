@@ -1,5 +1,7 @@
 package fpinscala.laziness
 
+import scala.annotation.tailrec
+
 /**
   * @author Pavel Belevich
   */
@@ -8,6 +10,21 @@ sealed trait Stream[+A] {
   def headOption: Option[A] = this match {
     case Empty => None
     case Cons(h, _) => Some(h())
+  }
+
+  def toListRecursive: List[A] = this match {
+    case Empty => Nil
+    case Cons(h, t) => h() :: t().toListRecursive
+  }
+
+  def toList: List[A] = {
+    @tailrec
+    def loop(s: Stream[A], acc: List[A]): List[A] = s match {
+      case Empty => acc
+      case Cons(h, t) => loop(t(), h() :: acc)
+    }
+
+    loop(this, Nil).reverse
   }
 
 }
