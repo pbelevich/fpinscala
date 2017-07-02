@@ -76,4 +76,16 @@ class OptionTest extends FunSuite {
     assert(None == Option.sequence(List(Some(1), None, Some(3))))
   }
 
+  test("traverse") {
+    assert(Some(List(1, 2, 3)) == Option.traverse(List("1", "2", "3"))(x => Option.Try(x.toInt)))
+  }
+
+  test("sequenceViaTraverse") {
+    assert(Some(List()) == Option.sequenceViaTraverse(List()))
+    assert(None == Option.sequenceViaTraverse(List(None)))
+    assert(Some(List(1)) == Option.sequenceViaTraverse(List(Some(1))))
+    assert(Some(List(1, 2, 3)) == Option.sequenceViaTraverse(List(Some(1), Some(2), Some(3))))
+    assert(None == Option.sequenceViaTraverse(List(Some(1), None, Some(3))))
+  }
+
 }
