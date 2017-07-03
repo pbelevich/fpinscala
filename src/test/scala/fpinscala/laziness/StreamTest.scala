@@ -61,4 +61,9 @@ class StreamTest extends FunSuite {
     assert(!Stream(1, 2, 3).existsViaFoldRight(_ == 4))
   }
 
+  test("forAll") {
+    assert(!Stream(1, 2, 3).forAll(_ < 3))
+    assert(Stream(1, 2, 3).forAll(_ < 4))
+  }
+
 }
