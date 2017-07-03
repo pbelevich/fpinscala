@@ -79,4 +79,8 @@ class StreamTest extends FunSuite {
     assert(Some(1) == Stream(1, 2, 3).headOptionViaFoldRight)
   }
 
+  test("map") {
+    assert(List("1", "2", "3") == Stream(1, 2, 3).map(_.toString).toList)
+  }
+
 }
