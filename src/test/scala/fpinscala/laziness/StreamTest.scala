@@ -96,8 +96,16 @@ class StreamTest extends FunSuite {
   }
 
   test("find") {
-    assert(Some(4) == Stream(1,2,3,4,5).find(_ == 4))
-    assert(None == Stream(1,2,3,4,5).find(_ == 6))
+    assert(Some(4) == Stream(1, 2, 3, 4, 5).find(_ == 4))
+    assert(None == Stream(1, 2, 3, 4, 5).find(_ == 6))
+  }
+
+  test("ones") {
+    assert(List(1, 1, 1, 1, 1) == Stream.ones.take(5).toList)
+  }
+
+  test("constant") {
+    assert(List(42, 42, 42, 42, 42) == Stream.constant(42).take(5).toList)
   }
 
 }

@@ -80,7 +80,7 @@ sealed trait Stream[+A] {
     foldRight[Stream[B]](empty)((h, t) => f(h) append t)
 
   def filter(f: A => Boolean): Stream[A] =
-    foldRight(empty[A])((h,t) => if (f(h)) cons(h, t) else t)
+    foldRight(empty[A])((h, t) => if (f(h)) cons(h, t) else t)
 
   def find(p: A => Boolean): Option[A] = filter(p).headOptionViaFoldRight
 
@@ -102,5 +102,12 @@ object Stream {
 
   def apply[A](as: A*): Stream[A] =
     if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
+
+  val ones: Stream[Int] = Stream.cons(1, ones)
+
+  def constant[A](a: A): Stream[A] = {
+    lazy val tail: Stream[A] = Cons(() => a, () => tail)
+    tail
+  }
 
 }
