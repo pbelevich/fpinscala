@@ -74,4 +74,9 @@ class StreamTest extends FunSuite {
     assert(List(1, 2, 3) == Stream(1, 2, 3).takeWhileViaFoldRight(_ < 4).toList)
   }
 
+  test("headOptionViaFoldRight") {
+    assert(None == Stream().headOptionViaFoldRight)
+    assert(Some(1) == Stream(1, 2, 3).headOptionViaFoldRight)
+  }
+
 }
