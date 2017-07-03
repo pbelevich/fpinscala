@@ -47,6 +47,12 @@ sealed trait Stream[+A] {
     case _ => empty
   }
 
+  @tailrec
+  final def exists(p: A => Boolean): Boolean = this match {
+    case Cons(h, t) => p(h()) || t().exists(p)
+    case _ => false
+  }
+
 }
 
 case object Empty extends Stream[Nothing]

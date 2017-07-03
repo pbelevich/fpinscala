@@ -39,12 +39,17 @@ class StreamTest extends FunSuite {
     assert(List(1, 2, 3) == Stream(1, 2, 3).take(4).toList)
   }
 
-  test("") {
+  test("takeWhile") {
     assert(List() == Stream[Int]().takeWhile(_ < 1).toList)
     assert(List() == Stream(1, 2, 3).takeWhile(_ < 1).toList)
     assert(List(1) == Stream(1, 2, 3).takeWhile(_ < 2).toList)
     assert(List(1, 2) == Stream(1, 2, 3).takeWhile(_ < 3).toList)
     assert(List(1, 2, 3) == Stream(1, 2, 3).takeWhile(_ < 4).toList)
+  }
+
+  test("exists") {
+    assert(Stream(1, 2, 3).exists(_ == 2))
+    assert(!Stream(1, 2, 3).exists(_ == 4))
   }
 
 }
