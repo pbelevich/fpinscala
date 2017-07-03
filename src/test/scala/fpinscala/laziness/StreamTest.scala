@@ -66,4 +66,12 @@ class StreamTest extends FunSuite {
     assert(Stream(1, 2, 3).forAll(_ < 4))
   }
 
+  test("takeWhileViaFoldRight") {
+    assert(List() == Stream[Int]().takeWhileViaFoldRight(_ < 1).toList)
+    assert(List() == Stream(1, 2, 3).takeWhileViaFoldRight(_ < 1).toList)
+    assert(List(1) == Stream(1, 2, 3).takeWhileViaFoldRight(_ < 2).toList)
+    assert(List(1, 2) == Stream(1, 2, 3).takeWhileViaFoldRight(_ < 3).toList)
+    assert(List(1, 2, 3) == Stream(1, 2, 3).takeWhileViaFoldRight(_ < 4).toList)
+  }
+
 }
