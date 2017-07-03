@@ -52,4 +52,8 @@ class StreamTest extends FunSuite {
     assert(!Stream(1, 2, 3).exists(_ == 4))
   }
 
+  test("foldRight") {
+    assert("321" == Stream(1, 2, 3).foldRight("")((i, s) => s + i.toString))
+  }
+
 }
