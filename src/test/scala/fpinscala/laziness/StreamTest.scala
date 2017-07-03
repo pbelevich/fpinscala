@@ -91,4 +91,8 @@ class StreamTest extends FunSuite {
     assert(List('a', 'b', 'c', 'd', 'e', 'f') == Stream("abc", "d", "ef").flatMap(s => Stream(s.toCharArray: _*)).toList)
   }
 
+  test("filter") {
+    assert(List(4, 6) == Stream(1, 3, 4, 5, 6).filter(_ % 2 == 0).toList)
+  }
+
 }

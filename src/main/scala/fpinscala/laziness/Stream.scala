@@ -79,6 +79,9 @@ sealed trait Stream[+A] {
   def flatMap[B](f: A => Stream[B]): Stream[B] =
     foldRight[Stream[B]](empty)((h, t) => f(h) append t)
 
+  def filter(f: A => Boolean): Stream[A] =
+    foldRight(empty[A])((h,t) => if (f(h)) cons(h, t) else t)
+
 }
 
 case object Empty extends Stream[Nothing]
