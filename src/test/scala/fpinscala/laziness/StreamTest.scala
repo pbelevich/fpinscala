@@ -108,4 +108,8 @@ class StreamTest extends FunSuite {
     assert(List(42, 42, 42, 42, 42) == Stream.constant(42).take(5).toList)
   }
 
+  test("from") {
+    assert(List(42, 43, 44, 45, 46) == Stream.from(42).take(5).toList)
+  }
+
 }
