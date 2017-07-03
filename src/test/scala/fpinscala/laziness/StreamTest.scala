@@ -83,4 +83,12 @@ class StreamTest extends FunSuite {
     assert(List("1", "2", "3") == Stream(1, 2, 3).map(_.toString).toList)
   }
 
+  test("append") {
+    assert(List(1, 2, 3, 4, 5, 6) == (Stream(1, 2, 3) append Stream(4, 5, 6)).toList)
+  }
+
+  test("flatMap") {
+    assert(List('a', 'b', 'c', 'd', 'e', 'f') == Stream("abc", "d", "ef").flatMap(s => Stream(s.toCharArray: _*)).toList)
+  }
+
 }
