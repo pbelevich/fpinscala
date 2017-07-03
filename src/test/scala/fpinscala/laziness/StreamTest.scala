@@ -95,4 +95,9 @@ class StreamTest extends FunSuite {
     assert(List(4, 6) == Stream(1, 3, 4, 5, 6).filter(_ % 2 == 0).toList)
   }
 
+  test("find") {
+    assert(Some(4) == Stream(1,2,3,4,5).find(_ == 4))
+    assert(None == Stream(1,2,3,4,5).find(_ == 6))
+  }
+
 }
