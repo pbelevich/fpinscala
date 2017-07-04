@@ -171,4 +171,23 @@ class StreamTest extends FunSuite {
     assert(List() == Stream(1, 2, 3).zip(Stream[Int]()).toList)
   }
 
+  test("zipWithAll") {
+    def mult(A: Option[Int], B: Option[Int]): Option[Int] = for {a <- A; b <- B} yield a * b
+
+    def multOr42(a: Option[Int], b: Option[Int]): Int = mult(a, b).getOrElse(42)
+
+    assert(List(4, 10, 18) == Stream(1, 2, 3).zipWithAll(Stream(4, 5, 6))(multOr42).toList)
+    assert(List(42, 42, 42) == Stream[Int]().zipWithAll(Stream(4, 5, 6))(multOr42).toList)
+    assert(List(42, 42, 42) == Stream(1, 2, 3).zipWithAll(Stream[Int]())(multOr42).toList)
+
+    assert(List(4, 10, 42) == Stream(1, 2, 3).zipWithAll(Stream(4, 5))(multOr42).toList)
+  }
+
+  test("zipAll") {
+    assert(List((Some(1), Some(4)), (Some(2), Some(5)), (Some(3), Some(6))) == Stream(1, 2, 3).zipAll(Stream(4, 5, 6)).toList)
+    assert(List((None, Some(4)), (None, Some(5)), (None, Some(6))) == Stream[Int]().zipAll(Stream(4, 5, 6)).toList)
+    assert(List((Some(1), None), (Some(2), None), (Some(3), None)) == Stream(1, 2, 3).zipAll(Stream[Int]()).toList)
+    assert(List((Some(1), Some(4)), (Some(2), Some(5)), (Some(3), None)) == Stream(1, 2, 3).zipAll(Stream(4, 5)).toList)
+  }
+
 }
