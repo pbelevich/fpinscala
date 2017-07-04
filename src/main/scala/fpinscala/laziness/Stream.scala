@@ -118,4 +118,9 @@ object Stream {
     go(0, 1)
   }
 
+  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+    case Some((a, s)) => cons(a, unfold(s)(f))
+    case None => empty
+  }
+
 }
