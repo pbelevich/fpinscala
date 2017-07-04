@@ -151,4 +151,12 @@ class StreamTest extends FunSuite {
     assert(List(1, 2, 3) == Stream(1, 2, 3).takeViaUnfold(4).toList)
   }
 
+  test("takeWhileViaUnfold") {
+    assert(List() == Stream[Int]().takeWhileViaUnfold(_ < 1).toList)
+    assert(List() == Stream(1, 2, 3).takeWhileViaUnfold(_ < 1).toList)
+    assert(List(1) == Stream(1, 2, 3).takeWhileViaUnfold(_ < 2).toList)
+    assert(List(1, 2) == Stream(1, 2, 3).takeWhileViaUnfold(_ < 3).toList)
+    assert(List(1, 2, 3) == Stream(1, 2, 3).takeWhileViaUnfold(_ < 4).toList)
+  }
+
 }

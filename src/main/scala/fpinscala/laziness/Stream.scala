@@ -95,6 +95,11 @@ sealed trait Stream[+A] {
     case _ => None
   }
 
+  def takeWhileViaUnfold(f: A => Boolean): Stream[A] = unfold(this) {
+    case Cons(h, t) if f(h()) => Some(h(), t())
+    case _ => None
+  }
+
 }
 
 case object Empty extends Stream[Nothing]
