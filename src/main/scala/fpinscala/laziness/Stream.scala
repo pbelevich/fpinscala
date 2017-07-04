@@ -123,4 +123,6 @@ object Stream {
     case None => empty
   }
 
+  val fibsViaUnfold = Stream.unfold((0, 1)) { case (f0, f1) => Some(f0, (f1, f0 + f1)) }
+
 }

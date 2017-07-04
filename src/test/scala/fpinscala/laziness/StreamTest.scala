@@ -120,4 +120,8 @@ class StreamTest extends FunSuite {
     assert(List(0, 1, 1, 2, 3, 5, 8, 13, 21, 34) == (Stream.unfold((0, 1)) { case (f0, f1) => Some(f0, (f1, f0 + f1)) } take 10 toList))
   }
 
+  test("fibsViaUnfold") {
+    assert(List(0, 1, 1, 2, 3, 5, 8, 13, 21, 34) == (Stream.fibsViaUnfold take 10 toList))
+  }
+
 }
