@@ -201,4 +201,8 @@ class StreamTest extends FunSuite {
     assert(!Stream(1, 2, 3).startsWith(Stream(4)))
   }
 
+  test("tails") {
+    assert(List(List(1, 2, 3), List(2, 3), List(3), List()) == Stream(1, 2, 3).tails.mapViaUnfold(_.toList).toList)
+  }
+
 }
