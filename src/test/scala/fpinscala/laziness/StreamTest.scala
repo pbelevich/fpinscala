@@ -165,4 +165,10 @@ class StreamTest extends FunSuite {
     assert(List() == Stream(1, 2, 3).zipWith(Stream[Int]())(_ * _).toList)
   }
 
+  test("zip") {
+    assert(List((1, 4), (2, 5), (3, 6)) == Stream(1, 2, 3).zip(Stream(4, 5, 6)).toList)
+    assert(List() == Stream[Int]().zip(Stream(4, 5, 6)).toList)
+    assert(List() == Stream(1, 2, 3).zip(Stream[Int]()).toList)
+  }
+
 }
