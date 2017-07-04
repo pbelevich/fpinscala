@@ -190,4 +190,15 @@ class StreamTest extends FunSuite {
     assert(List((Some(1), Some(4)), (Some(2), Some(5)), (Some(3), None)) == Stream(1, 2, 3).zipAll(Stream(4, 5)).toList)
   }
 
+  test("startsWith") {
+    assert(Stream(1, 2, 3).startsWith(Stream()))
+    assert(Stream(1, 2, 3).startsWith(Stream(1)))
+    assert(Stream(1, 2, 3).startsWith(Stream(1, 2)))
+    assert(Stream(1, 2, 3).startsWith(Stream(1, 2, 3)))
+    assert(!Stream(1, 2, 3).startsWith(Stream(1, 2, 3, 4)))
+    assert(!Stream(1, 2, 3).startsWith(Stream(2, 3, 4)))
+    assert(!Stream(1, 2, 3).startsWith(Stream(3, 4)))
+    assert(!Stream(1, 2, 3).startsWith(Stream(4)))
+  }
+
 }
