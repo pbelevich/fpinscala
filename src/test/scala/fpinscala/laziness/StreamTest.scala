@@ -140,4 +140,15 @@ class StreamTest extends FunSuite {
     assert(List("1", "2", "3") == Stream(1, 2, 3).mapViaUnfold(_.toString).toList)
   }
 
+  test("takeViaUnfold") {
+    assert(Stream() == Stream().takeViaUnfold(0))
+    assert(Stream() == Stream().takeViaUnfold(1))
+    assert(Stream() == Stream().takeViaUnfold(2))
+    assert(Stream() == Stream(1, 2, 3).takeViaUnfold(0))
+    assert(List(1) == Stream(1, 2, 3).takeViaUnfold(1).toList)
+    assert(List(1, 2) == Stream(1, 2, 3).takeViaUnfold(2).toList)
+    assert(List(1, 2, 3) == Stream(1, 2, 3).takeViaUnfold(3).toList)
+    assert(List(1, 2, 3) == Stream(1, 2, 3).takeViaUnfold(4).toList)
+  }
+
 }
