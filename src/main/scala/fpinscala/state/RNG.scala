@@ -1,5 +1,7 @@
 package fpinscala.state
 
+import scala.annotation.tailrec
+
 /**
   * @author Pavel Belevich
   */
@@ -55,6 +57,30 @@ case object RNG {
     val (d2, rng3) = double(rng2)
     val (d3, rng4) = double(rng3)
     ((d1, d2, d3), rng4)
+  }
+
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+    if (count == 0) {
+      (Nil, rng)
+    } else {
+      val (t, rng2) = ints(count - 1)(rng)
+      val (h, rng3) = rng2.nextInt
+      (h :: t, rng3)
+    }
+  }
+
+  def ints2(count: Int)(rng: RNG): (List[Int], RNG) = {
+    @tailrec
+    def loop(count: Int, rng: RNG, list: List[Int]): (List[Int], RNG) = {
+      if (count == 0) {
+        (list, rng)
+      } else {
+        val (i, rng2) = rng.nextInt
+        loop(count - 1, rng2, i :: list)
+      }
+    }
+
+    loop(count, rng, List())
   }
 
 }

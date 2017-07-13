@@ -73,4 +73,18 @@ class RNGTest extends FunSuite {
     assert(rng2 != null)
   }
 
+  test("testInts") {
+    val rng = SimpleRNG(42)
+    val (ints, rng2) = RNG.ints(3)(rng)
+    assert(ints == List(-340305902, -1281479697, 16159453))
+    assert(rng2 != null)
+  }
+
+  test("testInts2") {
+    val rng = SimpleRNG(42)
+    val (ints, rng2) = RNG.ints2(3)(rng)
+    assert(ints == List(-340305902, -1281479697, 16159453))
+    assert(rng2 != null)
+  }
+
 }
