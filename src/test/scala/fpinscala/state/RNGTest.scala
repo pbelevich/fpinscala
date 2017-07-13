@@ -145,4 +145,20 @@ class RNGTest extends FunSuite {
     assert(rng2 != null)
   }
 
+  test("testFlatMap") {
+    def nonNegativeLessThan(n: Int): Rand[Int] =
+      RNG.flatMap(RNG.nonNegativeInt) { i =>
+        val mod = i % n
+        if (i + (n - 1) - mod >= 0) RNG.unit(mod) else nonNegativeLessThan(n)
+      }
+
+    val rng = SimpleRNG(42)
+    val (i1, rng2) = nonNegativeLessThan(1000)(rng)
+    assert(i1 == 453)
+    assert(rng2 != null)
+    val (i2, rng3) = nonNegativeLessThan(1000)(rng2)
+    assert(i2 == 697)
+    assert(rng3 != null)
+  }
+
 }
