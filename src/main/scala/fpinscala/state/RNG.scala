@@ -110,4 +110,7 @@ case object RNG {
 
   val randDoubleInt: Rand[(Double, Int)] = both(double, int)
 
+  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
+    fs.foldRight[Rand[List[A]]](unit(List()))((a, b) => map2(a, b)(_ :: _))
+
 }

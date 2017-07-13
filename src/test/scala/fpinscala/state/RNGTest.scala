@@ -3,8 +3,6 @@ package fpinscala.state
 import fpinscala.state.RNG.Rand
 import org.scalatest.FunSuite
 
-import scala.collection.Searching.search
-
 /**
   * @author Pavel Belevich
   */
@@ -135,6 +133,15 @@ class RNGTest extends FunSuite {
     val ((d, i), rng2) = RNG.randDoubleInt(rng)
     assert(d == 16159453.0 / maxPlus1)
     assert(i == -1281479697)
+    assert(rng2 != null)
+  }
+
+  test("sequence") {
+    val rng = SimpleRNG(42)
+    val (List(d1, d2, d3), rng2) = RNG.sequence(List(RNG.doubleViaMap, RNG.doubleViaMap, RNG.doubleViaMap))(rng)
+    assert(d1 == 16159453.0 / maxPlus1)
+    assert(d2 == 1281479697.0 / maxPlus1)
+    assert(d3 == 340305902.0 / maxPlus1)
     assert(rng2 != null)
   }
 
