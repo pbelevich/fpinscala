@@ -118,4 +118,7 @@ case object RNG {
     g(a)(rng2)
   }
 
+  def mapViaFlatMap[A, B](s: Rand[A])(f: A => B): Rand[B] =
+    flatMap(s)(a => unit(f(a)))
+
 }
