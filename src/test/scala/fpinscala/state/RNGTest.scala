@@ -114,4 +114,12 @@ class RNGTest extends FunSuite {
     assert(rng2 != null)
   }
 
+  test("testBoth") {
+    val rng = SimpleRNG(42)
+    val ((i1, i2), rng2) = RNG.both(RNG.map(RNG.nonNegativeInt)(_ % 10), RNG.map(RNG.nonNegativeInt)(_ % 10))(rng)
+    assert(i1 == 3)
+    assert(i2 == 7)
+    assert(rng2 != null)
+  }
+
 }
