@@ -106,4 +106,8 @@ case object RNG {
 
   def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A, B)] = map2(ra, rb)((_, _))
 
+  val randIntDouble: Rand[(Int, Double)] = both(int, double)
+
+  val randDoubleInt: Rand[(Double, Int)] = both(double, int)
+
 }
