@@ -168,4 +168,12 @@ class RNGTest extends FunSuite {
     assert(rng2 != null)
   }
 
+  test("testMap2ViaFlatMap") {
+    val rng = SimpleRNG(42)
+    val r99: Rand[Int] = RNG.map2ViaFlatMap(RNG.map(RNG.nonNegativeInt)(_ % 10), RNG.map(RNG.nonNegativeInt)(_ % 10 * 10))((a, b) => a + b)
+    val (i, rng2) = r99(rng)
+    assert(i == 73)
+    assert(rng2 != null)
+  }
+
 }
