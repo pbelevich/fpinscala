@@ -102,6 +102,9 @@ case object RNG {
 
     def unit[S, A](a: A): State[S, A] = State(s => (a, s))
 
+    def sequenceViaFoldRight[S, A](sas: List[State[S, A]]): State[S, List[A]] =
+      sas.foldRight[State[S, List[A]]](unit(List()))((a, b) => a.map2(b)(_ :: _))
+
   }
 
   type Rand[+A] = State[RNG, A]
@@ -137,8 +140,11 @@ case object RNG {
 
   val randDoubleInt: Rand[(Double, Int)] = both(State(double), int)
 
+  //  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
+  //    fs.foldRight[Rand[List[A]]](unit(List()))((a, b) => map2(a, b)(_ :: _))
+
   def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
-    fs.foldRight[Rand[List[A]]](unit(List()))((a, b) => map2(a, b)(_ :: _))
+    State.sequenceViaFoldRight(fs)
 
   //  def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
   //    val (a, rng2) = f(rng)
