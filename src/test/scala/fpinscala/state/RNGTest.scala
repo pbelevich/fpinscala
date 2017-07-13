@@ -29,8 +29,20 @@ class RNGTest extends FunSuite {
     val rng = SimpleRNG(42)
     val (n1, rng2) = RNG.nonNegativeInt(rng)
     assert(n1 == 16159453)
+    assert(rng2 != null)
     val (n2, rng3) = RNG.nonNegativeInt(rng2)
     assert(n2 == 1281479697)
+    assert(rng3 != null)
+  }
+
+  test("testDouble") {
+    val rng = SimpleRNG(42)
+    val (d1, rng2) = RNG.double(rng)
+    assert(d1 == 16159453.0 / Int.MaxValue)
+    assert(rng2 != null)
+    val (d2, rng3) = RNG.double(rng2)
+    assert(d2 == 1281479697.0 / Int.MaxValue)
+    assert(rng3 != null)
   }
 
 }
