@@ -1,6 +1,9 @@
 package fpinscala.state
 
+import fpinscala.state.RNG.Rand
 import org.scalatest.FunSuite
+
+import scala.collection.Searching.search
 
 /**
   * @author Pavel Belevich
@@ -84,6 +87,13 @@ class RNGTest extends FunSuite {
     val rng = SimpleRNG(42)
     val (ints, rng2) = RNG.ints2(3)(rng)
     assert(ints == List(-340305902, -1281479697, 16159453))
+    assert(rng2 != null)
+  }
+
+  test("testNonNegativeEven") {
+    val rng = SimpleRNG(42)
+    val (i, rng2) = RNG.nonNegativeEven(rng)
+    assert(i % 2 == 0)
     assert(rng2 != null)
   }
 
