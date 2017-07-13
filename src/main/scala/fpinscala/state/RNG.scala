@@ -19,3 +19,13 @@ case class SimpleRNG(seed: Long) extends RNG {
   }
 
 }
+
+case object RNG {
+
+  def randomPair(rng: RNG): ((Int, Int), RNG) = {
+    val (i1, rng2) = rng.nextInt
+    val (i2, rng3) = rng2.nextInt
+    ((i1, i2), rng3)
+  }
+
+}
