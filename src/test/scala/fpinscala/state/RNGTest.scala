@@ -25,4 +25,12 @@ class RNGTest extends FunSuite {
     assert(rng3 != null)
   }
 
+  test("testNonNegativeInt") {
+    val rng = SimpleRNG(42)
+    val (n1, rng2) = RNG.nonNegativeInt(rng)
+    assert(n1 == 16159453)
+    val (n2, rng3) = RNG.nonNegativeInt(rng2)
+    assert(n2 == 1281479697)
+  }
+
 }

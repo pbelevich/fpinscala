@@ -28,4 +28,12 @@ case object RNG {
     ((i1, i2), rng3)
   }
 
+  def nonNegativeInt(rng: RNG): (Int, RNG) = {
+    rng.nextInt match {
+      case (Int.MinValue, rng2) => nonNegativeInt(rng2)
+      case (i, rng2) if i < 0 => (-i, rng2)
+      case (i, rng2) => (i, rng2)
+    }
+  }
+
 }
