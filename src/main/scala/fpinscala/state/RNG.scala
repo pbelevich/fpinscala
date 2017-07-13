@@ -83,40 +83,69 @@ case object RNG {
     loop(count, rng, List())
   }
 
-  type Rand[+A] = RNG => (A, RNG)
+  case class State[S, +A](run: S => (A, S)) {
 
-  val int: Rand[Int] = _.nextInt
+    def map[B](f: A => B): State[S, B] =
+      flatMap(a => State.unit(f(a)))
 
-  def unit[A](a: A): Rand[A] = rng => (a, rng)
+    def map2[B, C](sb: State[S, B])(f: (A, B) => C): State[S, C] =
+      flatMap(a => sb.map(b => f(a, b)))
 
-  def map[A, B](s: Rand[A])(f: A => B): Rand[B] = rng => {
-    val (a, rng2) = s(rng)
-    (f(a), rng2)
+    def flatMap[B](f: A => State[S, B]): State[S, B] = State(s => {
+      val (a, s1) = run(s)
+      f(a).run(s1)
+    })
+
   }
 
-  def nonNegativeEven: Rand[Int] = map(nonNegativeInt)(i => i - i % 2)
+  object State {
 
-  def doubleViaMap: Rand[Double] = map(nonNegativeInt)(_ / (Int.MaxValue.toDouble + 1))
+    def unit[S, A](a: A): State[S, A] = State(s => (a, s))
 
-  def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
-    val (a, rng2) = ra(rng)
-    val (b, rng3) = rb(rng2)
-    (f(a, b), rng3)
   }
+
+  type Rand[+A] = State[RNG, A]
+
+  val int: Rand[Int] = State(_.nextInt)
+
+  //  def unit[A](a: A): Rand[A] = rng => (a, rng)
+
+  def unit[A](a: A): Rand[A] = State.unit(a)
+
+  //  def map[A, B](s: Rand[A])(f: A => B): Rand[B] = rng => {
+  //    val (a, rng2) = s(rng)
+  //    (f(a), rng2)
+  //  }
+
+  def map[A, B](s: Rand[A])(f: A => B): Rand[B] = s map f
+
+  def nonNegativeEven: Rand[Int] = map(State(nonNegativeInt))(i => i - i % 2)
+
+  def doubleViaMap: Rand[Double] = map(State(nonNegativeInt))(_ / (Int.MaxValue.toDouble + 1))
+
+  //  def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
+  //    val (a, rng2) = ra(rng)
+  //    val (b, rng3) = rb(rng2)
+  //    (f(a, b), rng3)
+  //  }
+
+  def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = ra.map2(rb)(f)
 
   def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A, B)] = map2(ra, rb)((_, _))
 
-  val randIntDouble: Rand[(Int, Double)] = both(int, double)
+  val randIntDouble: Rand[(Int, Double)] = both(int, State(double))
 
-  val randDoubleInt: Rand[(Double, Int)] = both(double, int)
+  val randDoubleInt: Rand[(Double, Int)] = both(State(double), int)
 
   def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
     fs.foldRight[Rand[List[A]]](unit(List()))((a, b) => map2(a, b)(_ :: _))
 
-  def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
-    val (a, rng2) = f(rng)
-    g(a)(rng2)
-  }
+  //  def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
+  //    val (a, rng2) = f(rng)
+  //    g(a)(rng2)
+  //  }
+
+  def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = f flatMap g
 
   def mapViaFlatMap[A, B](s: Rand[A])(f: A => B): Rand[B] =
     flatMap(s)(a => unit(f(a)))

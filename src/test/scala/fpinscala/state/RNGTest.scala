@@ -1,6 +1,6 @@
 package fpinscala.state
 
-import fpinscala.state.RNG.Rand
+import fpinscala.state.RNG.{Rand, State}
 import org.scalatest.FunSuite
 
 /**
@@ -89,32 +89,32 @@ class RNGTest extends FunSuite {
 
   test("testNonNegativeEven") {
     val rng = SimpleRNG(42)
-    val (i, rng2) = RNG.nonNegativeEven(rng)
+    val (i, rng2) = RNG.nonNegativeEven.run(rng)
     assert(i % 2 == 0)
     assert(rng2 != null)
   }
 
   test("testDoubleViaMap") {
     val rng = SimpleRNG(42)
-    val (d1, rng2) = RNG.doubleViaMap(rng)
+    val (d1, rng2) = RNG.doubleViaMap.run(rng)
     assert(d1 == 16159453.0 / maxPlus1)
     assert(rng2 != null)
-    val (d2, rng3) = RNG.doubleViaMap(rng2)
+    val (d2, rng3) = RNG.doubleViaMap.run(rng2)
     assert(d2 == 1281479697.0 / maxPlus1)
     assert(rng3 != null)
   }
 
   test("testMap2") {
     val rng = SimpleRNG(42)
-    val r99: Rand[Int] = RNG.map2(RNG.map(RNG.nonNegativeInt)(_ % 10), RNG.map(RNG.nonNegativeInt)(_ % 10 * 10))((a, b) => a + b)
-    val (i, rng2) = r99(rng)
+    val r99: Rand[Int] = RNG.map2(RNG.map(State(RNG.nonNegativeInt))(_ % 10), RNG.map(State(RNG.nonNegativeInt))(_ % 10 * 10))((a, b) => a + b)
+    val (i, rng2) = r99.run(rng)
     assert(i == 73)
     assert(rng2 != null)
   }
 
   test("testBoth") {
     val rng = SimpleRNG(42)
-    val ((i1, i2), rng2) = RNG.both(RNG.map(RNG.nonNegativeInt)(_ % 10), RNG.map(RNG.nonNegativeInt)(_ % 10))(rng)
+    val ((i1, i2), rng2) = RNG.both(RNG.map(State(RNG.nonNegativeInt))(_ % 10), RNG.map(State(RNG.nonNegativeInt))(_ % 10)).run(rng)
     assert(i1 == 3)
     assert(i2 == 7)
     assert(rng2 != null)
@@ -122,7 +122,7 @@ class RNGTest extends FunSuite {
 
   test("testRandIntDouble") {
     val rng = SimpleRNG(42)
-    val ((i, d), rng2) = RNG.randIntDouble(rng)
+    val ((i, d), rng2) = RNG.randIntDouble.run(rng)
     assert(i == 16159453)
     assert(d == 1281479697.0 / maxPlus1)
     assert(rng2 != null)
@@ -130,7 +130,7 @@ class RNGTest extends FunSuite {
 
   test("testRandDoubleInt") {
     val rng = SimpleRNG(42)
-    val ((d, i), rng2) = RNG.randDoubleInt(rng)
+    val ((d, i), rng2) = RNG.randDoubleInt.run(rng)
     assert(d == 16159453.0 / maxPlus1)
     assert(i == -1281479697)
     assert(rng2 != null)
@@ -138,7 +138,7 @@ class RNGTest extends FunSuite {
 
   test("sequence") {
     val rng = SimpleRNG(42)
-    val (List(d1, d2, d3), rng2) = RNG.sequence(List(RNG.doubleViaMap, RNG.doubleViaMap, RNG.doubleViaMap))(rng)
+    val (List(d1, d2, d3), rng2) = RNG.sequence(List(RNG.doubleViaMap, RNG.doubleViaMap, RNG.doubleViaMap)).run(rng)
     assert(d1 == 16159453.0 / maxPlus1)
     assert(d2 == 1281479697.0 / maxPlus1)
     assert(d3 == 340305902.0 / maxPlus1)
@@ -147,31 +147,31 @@ class RNGTest extends FunSuite {
 
   test("testFlatMap") {
     def nonNegativeLessThan(n: Int): Rand[Int] =
-      RNG.flatMap(RNG.nonNegativeInt) { i =>
+      RNG.flatMap(State(RNG.nonNegativeInt)) { i =>
         val mod = i % n
         if (i + (n - 1) - mod >= 0) RNG.unit(mod) else nonNegativeLessThan(n)
       }
 
     val rng = SimpleRNG(42)
-    val (i1, rng2) = nonNegativeLessThan(1000)(rng)
+    val (i1, rng2) = nonNegativeLessThan(1000).run(rng)
     assert(i1 == 453)
     assert(rng2 != null)
-    val (i2, rng3) = nonNegativeLessThan(1000)(rng2)
+    val (i2, rng3) = nonNegativeLessThan(1000).run(rng2)
     assert(i2 == 697)
     assert(rng3 != null)
   }
 
   test("testMapViaFlatMap") {
     val rng = SimpleRNG(42)
-    val (i1, rng2) = RNG.mapViaFlatMap(RNG.nonNegativeInt)(_ % 10)(rng)
+    val (i1, rng2) = RNG.mapViaFlatMap(State(RNG.nonNegativeInt))(_ % 10).run(rng)
     assert(i1 == 3)
     assert(rng2 != null)
   }
 
   test("testMap2ViaFlatMap") {
     val rng = SimpleRNG(42)
-    val r99: Rand[Int] = RNG.map2ViaFlatMap(RNG.map(RNG.nonNegativeInt)(_ % 10), RNG.map(RNG.nonNegativeInt)(_ % 10 * 10))((a, b) => a + b)
-    val (i, rng2) = r99(rng)
+    val r99: Rand[Int] = RNG.map2ViaFlatMap(RNG.map(State(RNG.nonNegativeInt))(_ % 10), RNG.map(State(RNG.nonNegativeInt))(_ % 10 * 10))((a, b) => a + b)
+    val (i, rng2) = r99.run(rng)
     assert(i == 73)
     assert(rng2 != null)
   }
